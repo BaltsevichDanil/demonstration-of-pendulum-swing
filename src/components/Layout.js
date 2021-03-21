@@ -27,23 +27,23 @@ const Layout = () => {
   })
 
   return (
-    <div className='bg-primary font-serif'>
+    <div className='font-serif layout'>
       <animated.div
-        className='w-screen h-screen flex items-center justify-center absolute'
+        className='w-full h-full flex items-center justify-center absolute'
         style={animationLoading}
       >
         <PacmanLoader size={50} color={isDark()} />
       </animated.div>
       <animated.div
-        className='w-screen h-screen flex flex-col justify-between'
+        className='w-full h-auto flex flex-col justify-between'
         style={animationMain}
       >
         <Header />
-        <main className='h-3/4 w-3/4 mx-auto py-10'>
+        <main className='w-full mx-auto py-10'>
           <Canvas />
         </main>
         <footer className='w-full h-32 border-t border-primary'>
-          <div className='container h-full mx-auto flex items-center justify-between'>
+          <div className='container h-full mx-auto flex flex-col-reverse md:flex-row items-center justify-between py-4'>
             <div>
               <p className='text-primary text-md'>
                 © 2021{' '}
@@ -55,7 +55,7 @@ const Layout = () => {
                 </a>
               </p>
             </div>
-            <div>
+            <div className='flex flex-col items-center md:items-start'>
               <a
                 href='https://github.com/totdlinnyy1/demonstration-of-hesitation.git'
                 className='text-primary hover:text-accent w-32 flex items-center justify-between mb-1'

@@ -22,16 +22,16 @@ const Canvas = props => {
   // }, [draw])
 
   return (
-    <div className='h-full w-full'>
-      <h1 className='text-primary text-center text-5xl mb-10'>
+    <div>
+      <h1 className='text-primary text-center text-3xl md:text-5xl mb-10'>
         Oscillation of a mathematical pendulum
       </h1>
-      <div className='flex mx-auto justify-around w-3/4 h-full'>
-        <div className='border border-primary w-2/4 h-3/4'>
+      <div className='flex flex-col md:flex-row justify-center items-center md:items-start w-full'>
+        <div className='border border-primary canvas mr-0 mb-10 md:mr-10 md:mb-0'>
           <canvas ref={canvasRef} {...props} />
         </div>
         <div>
-          <div className='text-primary text-xl mb-10'>
+          <div className='text-primary text-md md:text-xl mb-10'>
             <label htmlFor='angle' className='mr-2'>
               Initial deflection of the pendulum:
             </label>
@@ -46,7 +46,7 @@ const Canvas = props => {
               &deg;
             </label>
           </div>
-          <div className='text-primary text-xl mb-10'>
+          <div className='text-primary text-md md:text-xl mb-10'>
             <label htmlFor='length' className='mr-2'>
               Suspension length:
             </label>
@@ -61,7 +61,7 @@ const Canvas = props => {
               m
             </label>
           </div>
-          <div className='text-primary text-xl'>
+          <div className='text-primary text-md md:text-xl'>
             <label htmlFor='deceleration' className='mr-2'>
               Deceleration:
             </label>
@@ -73,7 +73,7 @@ const Canvas = props => {
               placeholder='0.0001-2'
             />
           </div>
-          <div className='w-full h-10 mt-10'>
+          <div className='w-full h-10 mt-10 text-center md:text-left'>
             <button className='fancy-btn w-2/4 h-10 text-2xl'>Start</button>
           </div>
         </div>
