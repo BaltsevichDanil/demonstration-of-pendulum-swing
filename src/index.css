@@ -4,8 +4,10 @@
 
 .dark {
     --color-bg-primary: #2d3748;
+    --color-bg-primary-inverse: #ffffff;
     --color-bg-secondary: #283141;
     --color-text-primary: #f7fafc;
+    --color-text-primary-inverse: #2d3748;
     --color-text-secondary: #e2e8f0;
     --color-text-accent: #81e6d9;
     --color-border-primary: #ffffff;
@@ -13,8 +15,10 @@
 
 .light {
     --color-bg-primary: #ffffff;
+    --color-bg-primary-inverse: #2d3748;
     --color-bg-secondary: #edf2f7;
     --color-text-primary: #2d3748;
+    --color-text-primary-inverse: #f7fafc;
     --color-text-secondary: #4a5568;
     --color-text-accent: #2b6cb0;
     --color-border-primary: #2d3748;
