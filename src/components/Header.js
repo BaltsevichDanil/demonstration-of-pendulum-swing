@@ -1,5 +1,5 @@
 import ThemeToggle from './ThemeToggle'
-import logo from '../img/logo.svg'
+import logo from '../img/brain.svg'
 
 const LayoutHeader = () => {
   return (
@@ -7,8 +7,8 @@ const LayoutHeader = () => {
       <div className='container mx-auto'>
         <div className='flex items-center justify-between'>
           <div className='logo flex items-center'>
-            <svg width='120' height='120'>
-              <image href={logo} height='120' width='120' />
+            <svg width='90' height='100'>
+              <image href={logo} height='100' width='80' />
             </svg>
             <h1 className='text-primary text-3xl'>Physics</h1>
           </div>

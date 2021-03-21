@@ -1,10 +1,12 @@
 import React from 'react'
 import { PacmanLoader } from 'react-spinners'
 import { useSpring, animated } from 'react-spring'
+import { AiFillGithub } from 'react-icons/ai'
 import { ThemeContext } from '../hooks/themeContext'
 import Header from './Header'
+import Canvas from './Canvas'
 
-const Layout = ({ children }) => {
+const Layout = () => {
   const { theme } = React.useContext(ThemeContext)
 
   const isDark = () => (theme === 'dark' ? '#fff' : '#2d3748')
@@ -37,18 +39,41 @@ const Layout = ({ children }) => {
         style={animationMain}
       >
         <Header />
-        <main className='h-3/4'>{children}</main>
+        <main className='h-3/4 w-3/4 mx-auto py-10'>
+          <Canvas />
+        </main>
         <footer className='w-full h-32 border-t border-primary'>
-          <div className='container h-full mx-auto flex items-center'>
-            <p className='text-primary text-md'>
-              © 2021{' '}
+          <div className='container h-full mx-auto flex items-center justify-between'>
+            <div>
+              <p className='text-primary text-md'>
+                © 2021{' '}
+                <a
+                  href='https://github.com/totdlinnyy1'
+                  className='hover:text-accent'
+                >
+                  totdlinnyy1
+                </a>
+              </p>
+            </div>
+            <div>
               <a
-                href='https://github.com/totdlinnyy1'
-                className='hover:text-accent'
+                href='https://github.com/totdlinnyy1/demonstration-of-hesitation.git'
+                className='text-primary hover:text-accent w-32 flex items-center justify-between mb-1'
               >
-                totdlinnyy1
+                <AiFillGithub color={isDark()} size={25} />
+                View Source
               </a>
-            </p>
+              <div className='text-primary hover:text-accent'>
+                Logo made by{' '}
+                <a href='https://smashicons.com/' title='Smashicons'>
+                  Smashicons
+                </a>{' '}
+                from{' '}
+                <a href='https://www.flaticon.com/' title='Flaticon'>
+                  www.flaticon.com
+                </a>
+              </div>
+            </div>
           </div>
         </footer>
       </animated.div>
