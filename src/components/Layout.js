@@ -61,7 +61,7 @@ const Layout = () => {
                 className='text-primary hover:text-accent w-32 flex items-center justify-between mb-1'
               >
                 <AiFillGithub color={isDark()} size={25} />
-                View Source
+                Source Code
               </a>
               <div className='text-primary hover:text-accent'>
                 Logo made by{' '}
