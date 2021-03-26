@@ -1,25 +1,74 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 
 const Canvas = props => {
   const canvasRef = useRef(null)
 
-  // const [run, setRun] = useState(false)
-  // const [interval] = useState(30)
-  //
-  // const draw = (ctx, frameCount) => {
-  //   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-  //   ctx.fillStyle = '#000000'
-  //   ctx.beginPath()
-  //   ctx.arc(50, 100, 20 * Math.sin(frameCount * 0.05) ** 2, 0, 2 * Math.PI)
-  //   ctx.fill()
-  // }
-  //
-  // useEffect(() => {
-  //   const canvas = canvasRef.current
-  //   const context = canvas.getContext('2d')
-  //   const interval = 30
-  //   let run = false
-  // }, [draw])
+  const [animating, setAnimating] = useState(true)
+
+  const drawPendulum = (canvas, ctx, time) => {
+    //TODO Starting and stopping oscillations
+    //TODO Swing and pendulum settings
+    //TODO Some graphics
+    if (animating) {
+      const amplitude = Math.PI / 4
+      const period = 4000
+      let theta
+      const pendulumLength = 350
+      const pendulumWidth = 10
+      const rotationPointX = canvas.width / 2
+      const rotationPointY = 20
+
+      theta = (amplitude * Math.sin((2 * Math.PI * time) / period)) + Math.PI / 2
+
+      ctx.beginPath()
+      ctx.arc(rotationPointX, rotationPointY, 15, 0, 2 * Math.PI, false)
+      ctx.fillStyle = 'black'
+      ctx.fill()
+
+      ctx.beginPath()
+      let endPointX = rotationPointX + (pendulumLength * Math.cos(theta))
+      let endPointY = rotationPointY + (pendulumLength * Math.sin(theta))
+      ctx.beginPath()
+      ctx.moveTo(rotationPointX, rotationPointY)
+      ctx.lineTo(endPointX, endPointY)
+      ctx.lineWidth = pendulumWidth
+      ctx.lineCap = 'round'
+      ctx.strokeStyle = '#555'
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.arc(endPointX, endPointY, 40, 0, 2 * Math.PI, false)
+      let grd = ctx.createLinearGradient(endPointX - 50, endPointY - 50, endPointX + 50, endPointY + 50)
+      grd.addColorStop(0, '#444')
+      grd.addColorStop(0.5, 'white')
+      grd.addColorStop(1, '#444')
+      ctx.fillStyle = grd
+      ctx.fill()
+    }
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+
+    let frame = 0
+    let animationFrameId
+
+    const render = () => {
+      frame += 18
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      drawPendulum(canvas, ctx, frame)
+      animationFrameId = requestAnimationFrame(render)
+    }
+
+    render()
+
+    return () => {
+      cancelAnimationFrame(animationFrameId)
+    }
+
+  }, [drawPendulum])
+
 
   return (
     <div>
@@ -27,8 +76,8 @@ const Canvas = props => {
         Oscillation of a mathematical pendulum
       </h1>
       <div className='flex flex-col md:flex-row justify-center items-center md:items-start w-full'>
-        <div className='border border-primary canvas mr-0 mb-10 md:mr-10 md:mb-0'>
-          <canvas ref={canvasRef} {...props} />
+        <div className='canvas border border-primary mr-0 mb-10 md:mr-10 md:mb-0'>
+          <canvas ref={canvasRef} {...props} width={350} height={600} />
         </div>
         <div>
           <div className='text-primary text-md md:text-xl mb-10'>

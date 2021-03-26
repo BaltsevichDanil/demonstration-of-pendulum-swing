@@ -29,7 +29,7 @@ const Layout = () => {
   return (
     <div className='font-serif layout'>
       <animated.div
-        className='w-full h-full flex items-center justify-center absolute'
+        className='w-full h-screen absolute flex items-center justify-center'
         style={animationLoading}
       >
         <PacmanLoader size={50} color={isDark()} />
