@@ -67,7 +67,7 @@ const Canvas = props => {
       cancelAnimationFrame(animationFrameId)
     }
 
-  }, [drawPendulum])
+  })
 
 
   return (
