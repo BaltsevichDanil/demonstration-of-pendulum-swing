@@ -1,7 +1,9 @@
 {
   "name": "demonstration-of-hesitation",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "author": "Danil Baltsevich <totdlinnyy@gmail.com>",
+  "description": "web application demonstrating pendulum swing",
   "dependencies": {
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
@@ -15,6 +17,7 @@
     "react-spinners": "^0.10.6",
     "react-spring": "^8.0.27",
     "react-switch": "^6.0.0",
+    "toasted-notes": "^3.2.0",
     "web-vitals": "^1.0.1",
     "yarn": "^1.22.10"
   },

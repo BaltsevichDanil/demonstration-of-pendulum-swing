@@ -1,30 +1,31 @@
 import React, { useRef, useEffect, useState } from 'react'
+import toast from 'toasted-notes'
 
 const Canvas = props => {
   const canvasRef = useRef(null)
 
-  const [animating, setAnimating] = useState(true)
+  const [animating, setAnimating] = useState(false)
+  const [fetchPeriod, setFetchPeriod] = useState(0)
+  const [length, setLength] = useState(0)
 
   const drawPendulum = (canvas, ctx, time) => {
-    //TODO Starting and stopping oscillations
-    //TODO Swing and pendulum settings
-    //TODO Some graphics
     if (animating) {
       const amplitude = Math.PI / 4
-      const period = 4000
+      const period = fetchPeriod * 1000
       let theta
-      const pendulumLength = 350
-      const pendulumWidth = 10
+      const pendulumLength = length * 100
+      const pendulumWidth = 5
       const rotationPointX = canvas.width / 2
       const rotationPointY = 20
 
       theta = (amplitude * Math.sin((2 * Math.PI * time) / period)) + Math.PI / 2
 
       ctx.beginPath()
-      ctx.arc(rotationPointX, rotationPointY, 15, 0, 2 * Math.PI, false)
+      ctx.moveTo(0, rotationPointY - 3)
+      ctx.lineTo(canvas.width, rotationPointY - 3)
+      ctx.lineWidth = 6
       ctx.fillStyle = 'black'
-      ctx.fill()
-
+      ctx.stroke()
       ctx.beginPath()
       let endPointX = rotationPointX + (pendulumLength * Math.cos(theta))
       let endPointY = rotationPointY + (pendulumLength * Math.sin(theta))
@@ -33,11 +34,11 @@ const Canvas = props => {
       ctx.lineTo(endPointX, endPointY)
       ctx.lineWidth = pendulumWidth
       ctx.lineCap = 'round'
-      ctx.strokeStyle = '#555'
+      ctx.strokeStyle = '#000'
       ctx.stroke()
 
       ctx.beginPath()
-      ctx.arc(endPointX, endPointY, 40, 0, 2 * Math.PI, false)
+      ctx.arc(endPointX, endPointY, 20, 0, 2 * Math.PI, false)
       let grd = ctx.createLinearGradient(endPointX - 50, endPointY - 50, endPointX + 50, endPointY + 50)
       grd.addColorStop(0, '#444')
       grd.addColorStop(0.5, 'white')
@@ -55,7 +56,8 @@ const Canvas = props => {
     let animationFrameId
 
     const render = () => {
-      frame += 18
+      const time = new Date()
+      frame = time.getTime()
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       drawPendulum(canvas, ctx, frame)
       animationFrameId = requestAnimationFrame(render)
@@ -67,7 +69,20 @@ const Canvas = props => {
       cancelAnimationFrame(animationFrameId)
     }
 
-  })
+  }, [drawPendulum])
+
+
+  const handleClick = () => {
+    if (!animating) {
+      if (fetchPeriod && length) {
+        if (isFinite(fetchPeriod) && isFinite(length)) {
+          if (fetchPeriod >= 2 && fetchPeriod <= 6 && length >= 1 && length <= 3) {
+            setAnimating(true)
+          } else toast.notify('Invalid values entered!')
+        } else toast.notify('Invalid values entered!')
+      } else toast.notify('Enter values!')
+    } else setAnimating(false)
+  }
 
 
   return (
@@ -82,17 +97,19 @@ const Canvas = props => {
         <div>
           <div className='text-primary text-md md:text-xl mb-10'>
             <label htmlFor='angle' className='mr-2'>
-              Initial deflection of the pendulum:
+              Period:
             </label>
             <input
               type='text'
-              id='angle'
+              id='period'
               className='bg-primary border border-primary outline-none text-center'
               size={3}
-              placeholder='1-90'
+              placeholder='2-6'
+              onChange={e => setFetchPeriod(e.currentTarget.value)}
+              disabled={animating}
             />
             <label htmlFor='angle' className='text-3xl ml-2'>
-              &deg;
+              s
             </label>
           </div>
           <div className='text-primary text-md md:text-xl mb-10'>
@@ -104,27 +121,30 @@ const Canvas = props => {
               id='length'
               className='bg-primary border border-primary outline-none text-center'
               size={3}
-              placeholder='0.1-2'
+              placeholder='1-3'
+              onChange={e => setLength(e.currentTarget.value)}
+              disabled={animating}
             />
             <label htmlFor='length' className='text-xl ml-2'>
               m
             </label>
           </div>
-          <div className='text-primary text-md md:text-xl'>
-            <label htmlFor='deceleration' className='mr-2'>
-              Deceleration:
-            </label>
-            <input
-              type='text'
-              id='deceleration'
-              className='bg-primary border border-primary outline-none text-center'
-              size={6}
-              placeholder='0.0001-2'
-            />
+          <div className='w-full h-10 mt-10 text-center md:text-left mb-10'>
+            <button className='fancy-btn w-2/4 h-10 text-2xl'
+                    onClick={handleClick}>{animating ? 'Stop' : 'Start'}</button>
           </div>
-          <div className='w-full h-10 mt-10 text-center md:text-left'>
-            <button className='fancy-btn w-2/4 h-10 text-2xl'>Start</button>
-          </div>
+          {animating && (
+            <div>
+              <h1 className='text-primary text-md md:text-xl mb-10'>Calculated values:</h1>
+              <p className='text-primary text-md md:text-xl mb-5'>Frequency:</p>
+              <p className='text-primary text-md md:text-xl mb-10'>&nu; = <sup>1</sup>&frasl;
+                <sub>T</sub> = <sup>1</sup>&frasl;<sub>{fetchPeriod}</sub> = {(1 / fetchPeriod).toFixed(2)} Hz</p>
+              <p className='text-primary text-md md:text-xl mb-5'>Cyclic frequency:</p>
+              <p className='text-primary text-md md:text-xl mb-10'>&omega; = 2&pi;&nu; =
+                2&pi; * {(1 / fetchPeriod).toFixed(2)} = {(2 * Math.PI * (1 / fetchPeriod)).toFixed(2)} radian/s</p>
+
+            </div>
+          )}
         </div>
       </div>
     </div>

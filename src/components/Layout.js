@@ -1,5 +1,5 @@
 import React from 'react'
-import { PacmanLoader } from 'react-spinners'
+import { RingLoader } from 'react-spinners'
 import { useSpring, animated } from 'react-spring'
 import { AiFillGithub } from 'react-icons/ai'
 import { ThemeContext } from '../hooks/themeContext'
@@ -29,10 +29,10 @@ const Layout = () => {
   return (
     <div className='font-serif layout'>
       <animated.div
-        className='w-full h-screen absolute flex items-center justify-center'
+        className='w-screen h-screen absolute flex items-center justify-center'
         style={animationLoading}
       >
-        <PacmanLoader size={50} color={isDark()} />
+        <RingLoader size={100} color={isDark()} />
       </animated.div>
       <animated.div
         className='w-full h-auto flex flex-col justify-between'
